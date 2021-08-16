@@ -20,6 +20,11 @@ def update_high_scores(new_score):
     print('\n')
     for position in high_scores:
         print(position)
+
+    with open("high_scores.txt", "w") as score_doc:
+        for score in high_scores:
+            score_doc.writelines(str(score) + "\n")
+
         
     
 name = input('Greetings friend! What is your name?\n')
