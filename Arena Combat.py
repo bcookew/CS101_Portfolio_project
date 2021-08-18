@@ -2,12 +2,14 @@ import shelve
 
 high_scores = []
 
-hsd = shelve.open('high_scores.txt')
 try:
+    hsd = shelve.open('high_scores')
     high_scores = hsd['high_scores']
+    hsd.close()
+
 except:
     high_scores = [['Ben Jammin', 0], ['Grackus Rex', 0], ['Kelsir', 0], ['Vin', 0], ['The Governator', 0]]
-hsd.close()
+
 
 
 def print_scores():
@@ -37,7 +39,7 @@ def update_high_scores(new_score):
     
     print_scores()
 
-    hsd = shelve.open('high_scores.txt')
+    hsd = shelve.open('high_scores')
     hsd['high_scores'] = high_scores
     hsd.close()
 
