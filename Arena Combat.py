@@ -1,4 +1,21 @@
-high_scores = [['Ben Jammin', 0], ['Grackus Rex', 0], ['Kelsir', 0], ['Vin', 0], ['The Governator', 0]]
+import shelve
+
+high_scores = []
+
+hsd = shelve.open('high_scores.txt')
+try:
+    high_scores = hsd['high_scores']
+except:
+    high_scores = [['Ben Jammin', 0], ['Grackus Rex', 0], ['Kelsir', 0], ['Vin', 0], ['The Governator', 0]]
+hsd.close()
+
+
+def print_scores():
+    print('\n')
+    for position in high_scores:
+        print(position)
+    print('\n')
+
 
 def update_high_scores(new_score):
     
@@ -17,21 +34,25 @@ def update_high_scores(new_score):
             break
         else:
             print('\nTry again for a top score!\n')
-    print('\n')
-    for position in high_scores:
-        print(position)
+    
+    print_scores()
 
-    with open("high_scores.txt", "w") as score_doc:
-        for score in high_scores:
-            score_doc.writelines(str(score) + "\n")
+    hsd = shelve.open('high_scores.txt')
+    hsd['high_scores'] = high_scores
+    hsd.close()
 
-        
+    # with open("high_scores.txt", "w") as score_doc:
+    #     for score in high_scores:
+    #         score_doc.writelines(str(score) + "\n")
+
+print_scores()       
     
 name = input('Greetings friend! What is your name?\n')
 score = int(input('What was your score?\n'))
 
 update_high_scores([name, score])
-print('\nthis works\n')
+print('\n')
+
             
 
 """ class Player:
