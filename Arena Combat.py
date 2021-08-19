@@ -1,64 +1,42 @@
-import shelve
+from hst import Score_Card
+from Player_classes import Monk, Paladin, Barbarian
 
-high_scores = []
+high_scores = Score_Card.load_high_scores()
+Score_Card.print_scores()       
 
-try:
-    hsd = shelve.open('high_scores')
-    high_scores = hsd['high_scores']
-    hsd.close()
+name = input('Greetings friend! What is your name? ')
 
-except:
-    high_scores = [['Ben Jammin', 0], ['Grackus Rex', 0], ['Kelsir', 0], ['Vin', 0], ['The Governator', 0]]
+knows_classes = input(f'''\nIt\'s good to have you here {name}.\n
+I hope you put on your fighting pants today...\n
+Do you know what fighting class you want to pick?(yes/no): ''')
+
+if knows_classes.lower() == 'yes':
+    chosen_class = input('\nGreat! Good and ready for the grinder I see. \nThe spectators in the arena will love that! So which one: ')
+else:
+    chosen_class = input('''Ok then, let's see...\n 
+    The three fighting styles we allow are Monk, Paladin, and Barbarian.\n What's your style: ''')
+
+if chosen_class.lower() == "monk":
+    player = Monk(name, chosen_class.capitalize())
+elif chosen_class.lower() == "paladin":
+    player = Paladin(name, chosen_class.capitalize())
+elif chosen_class.lower() == "barbarian":
+    player = Barbarian(name, chosen_class.capitalize())
+
+print(f'\nOk, {player.name} it\'s time to send you into the arena. \n{player}... That sounds pretty good I reckon.\nI\'m sure you\'ll do fine')
+
+print(f'''\n{player.name} is a {player.chosen_class}\n
+Their stats are:
+    {player.atk_mod} Attack Mod
+    {player.spell_mod} Spell Mod
+    {player.dex_mod} Dexterity Mod
+    \n''')
 
 
 
-def print_scores():
-    print('\n')
-    for position in high_scores:
-        print(position)
-    print('\n')
 
+#score = int(input('What was your whole number score? '))
 
-def update_high_scores(new_score):
-    
-    for position in high_scores:
-        if new_score[1] > position[1]:
-            high_scores.insert(high_scores.index(position), new_score)
-            print('\nCongrats on making the top 5!\n')
-            if len(high_scores) > 5:
-                high_scores.pop(5)
-            break
-        elif new_score[1] == position[1]:
-            high_scores.insert((high_scores.index(position)+1), new_score)
-            print('\nCongrats on making the top 5!\n')
-            if len(high_scores) > 5:
-                high_scores.pop(5)
-            break
-        else:
-            print('\nTry again for a top score!\n')
-    
-    print_scores()
-
-    hsd = shelve.open('high_scores')
-    hsd['high_scores'] = high_scores
-    hsd.close()
-
-    # with open("high_scores.txt", "w") as score_doc:
-    #     for score in high_scores:
-    #         score_doc.writelines(str(score) + "\n")
-
-print_scores()       
-    
-name = input('Greetings friend! What is your name?\n')
-score = int(input('What was your score?\n'))
-
-update_high_scores([name, score])
+#Score_Card.update_high_scores([name, score])
 print('\n')
 
-            
-
-""" class Player:
-
-    def welcome():
-        player_name = input('Greetings friend! What is your name?')
- """    
