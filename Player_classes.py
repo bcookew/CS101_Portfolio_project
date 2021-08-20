@@ -38,6 +38,8 @@ class Player:
 
 class Monk(Player):
     def __init__(self, name, chosen_class):
+        self.hp = 7
+        self.armor = 15
         self.atk_mod = 5
         self.spell_mod = 0
         self.dex_mod = 10
@@ -45,6 +47,8 @@ class Monk(Player):
 
 class Paladin(Player):
     def __init__(self, name, chosen_class):
+        self.hp = 7
+        self.armor = 15
         self.atk_mod = 7
         self.spell_mod = 7
         self.dex_mod = 0
@@ -52,6 +56,8 @@ class Paladin(Player):
 
 class Barbarian(Player):
     def __init__(self, name, chosen_class):
+        self.hp = 7
+        self.armor = 15
         self.atk_mod = 10
         self.spell_mod = 5
         self.dex_mod = 5
