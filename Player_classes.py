@@ -1,9 +1,7 @@
 import random
 
-
 def rand_mod():
-    return random.randint(-5, 5)
-
+    return random.randint(1, 20)
 
 weapons = {'Knuckles':2, 'Sword':5, 'Two-Handed Axe':10}
 spells = {'Fireball': 5, 'Spirit Bomb': 10, 'Shriek': 3}
@@ -20,13 +18,13 @@ class Player:
         return f'{self.name} the {self.chosen_class}'
 
     def attack(self, weapon, enemy_type):
-        if (self.atk_mod + rand_mod() >= enemy_type.def_mod + rand_mod()):
+        if (self.atk_mod + rand_mod() >= enemy_type.atk_mod + rand_mod()):
             return (self.atk_mod + weapons[weapon])
         else:
             return 0
     
     def use_spell(self, spell, enemy_type):
-        if (self.spell_mod + rand_mod() >= enemy_type.def_mod + rand_mod()):
+        if (self.spell_mod + rand_mod() >= enemy_type.spell_mod + rand_mod()):
             return (self.spell_mod + spells[spell])
         else:
             return 0
