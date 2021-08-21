@@ -1,20 +1,32 @@
 from Player_classes import rand_mod, damage_roll
 
+
+
 class Enemy:
     def __init__(self, name, atk_mod, spell_mod, dex_mod):
         self.name = name
         self.atk_mod = atk_mod
         self.spell_mod = spell_mod
         self.dex_mod = dex_mod
+        self.dodged = False
+        self.stunned = False
+        self.slowed = False
 
     def __repr__(self):
         return f'{self.name} the {self.chosen_class}'
 
-    def attack(self, weapon, enemy_armor, enemy_health):
-        if (self.atk_mod + rand_mod() >= enemy_armor + rand_mod()):
-            return (enemy_health - (damage_roll() + weapon[1]))
+    def attack(self, weapon, enemy_armor, enemy_health, enemy_dodged):
+        if enemy_dodged == True:
+            print('You dodged the attack!')
+            return False, enemy_health
         else:
-            return enemy_health
+            if (self.atk_mod + rand_mod() >= enemy_armor):
+                damage = damage_roll() + weapon[1]
+                print(f"{self.name} hit you for {damage} points of damage!")
+                return False, enemy_health - damage
+            else:
+                print(f"The {self.name} missed you!")
+                return False, enemy_health
     
     def use_spell(self, spell, player):
         if (self.spell_mod + rand_mod() >= player.spell_mod + rand_mod()):

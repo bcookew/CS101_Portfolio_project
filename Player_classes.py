@@ -16,12 +16,15 @@ class Player:
         self.atk_mod = atk_mod
         self.spell_mod = spell_mod
         self.dex_mod = dex_mod
+        self.dodged = False
+        self.stunned = False
+        self.slowed = False
 
     def __repr__(self):
         return f'{self.name} the {self.chosen_class}'
 
     def attack(self, weapon, enemy_armor, enemy_health):
-        if (self.atk_mod + rand_mod() >= enemy_armor + rand_mod()):
+        if (self.atk_mod + rand_mod() >= enemy_armor):
             return (enemy_health - (damage_roll() + weapon[1]))
         else:
             return enemy_health
@@ -32,8 +35,8 @@ class Player:
         else:
             return 0
 
-    def evade(self, enemy_type):
-        if (self.dex_mod + rand_mod()) > (enemy_type.dex_mod + rand_mod()):
+    def evade(self, enemy_dex):
+        if (self.dex_mod + rand_mod()) > (enemy_dex + rand_mod()):
             return True
         else:
             return False
