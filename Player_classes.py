@@ -1,13 +1,9 @@
-import random
+from dice import *
 
-def rand_mod():
-    return random.randint(1, 20)
 
 weapons = {'Knuckles':2, 'Sword':5, 'Two-Handed Axe':10}
 spells = {'Fireball': 5, 'Spirit Bomb': 10, 'Shriek': 3}
 
-def damage_roll():
-    return random.randint(1,6)
 
 class Player:
     def __init__(self, name, chosen_class, atk_mod, spell_mod, dex_mod):
@@ -24,19 +20,19 @@ class Player:
         return f'{self.name} the {self.chosen_class}'
 
     def attack(self, weapon, enemy_armor, enemy_health):
-        if (self.atk_mod + rand_mod() >= enemy_armor):
-            return (enemy_health - (damage_roll() + weapon[1]))
+        if (self.atk_mod + d20() >= enemy_armor):
+            return (enemy_health - (d6() + weapon[1]))
         else:
             return enemy_health
     
     def use_spell(self, spell, enemy_type):
-        if (self.spell_mod + rand_mod() >= enemy_type.spell_mod + rand_mod()):
+        if (self.spell_mod + d20() >= enemy_type.spell_mod + d20()):
             return (self.spell_mod + spells[spell])
         else:
             return 0
 
     def evade(self, enemy_dex):
-        if (self.dex_mod + rand_mod()) > (enemy_dex + rand_mod()):
+        if (self.dex_mod + d20()) > (enemy_dex + d20()):
             return True
         else:
             return False
@@ -45,11 +41,11 @@ class Player:
 class Monk(Player):
     def __init__(self, name, chosen_class):
         self.hp = 10
-        self.armor = 15
+        self.armor = 16
         self.atk_mod = 6
         self.spell_mod = 0
         self.dex_mod = 10
-        self.weapons = ['Brass Knuckles', 3]
+        self.weapons = ['Brass Knuckles', d4, 3]
         super().__init__(name, chosen_class, self.atk_mod, self.spell_mod, self.dex_mod)
 
 class Paladin(Player):

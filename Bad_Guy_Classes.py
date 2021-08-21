@@ -1,4 +1,4 @@
-from Player_classes import rand_mod, damage_roll
+from dice import *
 
 
 
@@ -20,8 +20,8 @@ class Enemy:
             print('You dodged the attack!')
             return False, enemy_health
         else:
-            if (self.atk_mod + rand_mod() >= enemy_armor):
-                damage = damage_roll() + weapon[1]
+            if (self.atk_mod + d20() >= enemy_armor):
+                damage = d6() + weapon[1]
                 print(f"{self.name} hit you for {damage} points of damage!")
                 return False, enemy_health - damage
             else:
@@ -29,13 +29,13 @@ class Enemy:
                 return False, enemy_health
     
     def use_spell(self, spell, player):
-        if (self.spell_mod + rand_mod() >= player.spell_mod + rand_mod()):
+        if (self.spell_mod + d20() >= player.spell_mod + d20()):
             return (self.spell_mod + self.spells[spell])
         else:
             return 0
 
     def evade(self, player):
-        if (self.dex_mod + rand_mod()) > (player.dex_mod + rand_mod()):
+        if (self.dex_mod + d20()) > (player.dex_mod + d20()):
             return True
         else:
             return False
@@ -49,7 +49,7 @@ class Goblin(Enemy):
         self.atk_mod = 4
         self.spell_mod = 0
         self.dex_mod = 6
-        self.weapons = ['Scimitar',4]
+        self.weapons = ['Scimitar', d6, 4]
         self.spells = None
         super().__init__(self.name, self.atk_mod, self.spell_mod, self.dex_mod)
 
