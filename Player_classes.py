@@ -46,22 +46,27 @@ class Monk(Player):
         self.spell_mod = 0
         self.dex_mod = 10
         self.weapons = ['Brass Knuckles', d4, 3]
+        self.spells = ['Vulcan Nerve Pinch']
         super().__init__(name, chosen_class, self.atk_mod, self.spell_mod, self.dex_mod)
 
 class Paladin(Player):
     def __init__(self, name, chosen_class):
         self.hp = 7
-        self.armor = 15
+        self.armor = 18
         self.atk_mod = 7
         self.spell_mod = 7
         self.dex_mod = 0
+        self.weapons = ['Claymore', d12, 6]
+        self.spells = ['Divine Prison']
         super().__init__(name, chosen_class, self.atk_mod, self.spell_mod, self.dex_mod)
 
 class Barbarian(Player):
     def __init__(self, name, chosen_class):
-        self.hp = 7
-        self.armor = 15
+        self.hp = 15
+        self.armor = 12
         self.atk_mod = 10
         self.spell_mod = 5
         self.dex_mod = 5
+        self.weapons = ['Bare Hands', d6, 4]
+        self.spells = ['Headbutt']
         super().__init__(name, chosen_class, self.atk_mod, self.spell_mod, self.dex_mod)

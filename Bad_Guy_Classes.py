@@ -50,7 +50,7 @@ class Goblin(Enemy):
         self.spell_mod = 0
         self.dex_mod = 6
         self.weapons = ['Scimitar', d6, 4]
-        self.spells = None
+        self.spells = ['Frost']
         super().__init__(self.name, self.atk_mod, self.spell_mod, self.dex_mod)
 
 class Lizardfolk(Enemy):
