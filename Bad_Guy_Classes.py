@@ -61,8 +61,8 @@ class Lizardfolk(Enemy):
         self.atk_mod = 7
         self.spell_mod = 7
         self.dex_mod = 0
-        self.weapons = {'Bite':4, 'Heavy Club':4}
-        self.spells = None
+        self.weapons = ['Heavy Club', d8, 4]
+        self.spells = ['Bind']
         super().__init__(self.name, self.atk_mod, self.spell_mod, self.dex_mod)
 
 class Bugbear(Enemy):
@@ -73,6 +73,6 @@ class Bugbear(Enemy):
         self.atk_mod = 10
         self.spell_mod = 5
         self.dex_mod = 5
-        self.weapons = {'Knuckles':2, 'Sword':5, 'Two-Handed Axe':10}
-        self.spells = {'Fireball': 5, 'Spirit Bomb': 10, 'Shriek': 3}
+        self.weapons = ['Two-Handed Axe', d10, 10]
+        self.spells = ['Roar']
         super().__init__(self.name, self.atk_mod, self.spell_mod, self.dex_mod)
