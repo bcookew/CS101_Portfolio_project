@@ -3,6 +3,7 @@ from Actions import attack_roll, evade, damage_roll, cast_roll
 from dice import *
 from Player_classes import Monk, Paladin, Barbarian
 from Bad_Guy_Classes import Goblin, Lizardfolk, Bugbear
+import time
 
 
 big_bads = [Goblin, Lizardfolk, Bugbear]
@@ -26,11 +27,16 @@ def combat():
         print(f"\n{player.name} starting with {str(player.hp)} hp")
         print(f"{baddy.name} is starting with {str(baddy.hp)}hp\n")
         baddy_starting_hp = baddy.hp
+        time.sleep(3)
         while baddy.hp > 0:
+            if round_counter > 1:
+                time.sleep(2)
+            
             print(f'\n##########--Round {str(round_counter)}--##########')
             print(f'{player.name}: {player.hp}hp        {baddy.name}: {baddy.hp}\n')
+            
             if player.stunned == False and baddy.stunned == False:
-                player_act = input('Attack, Cast Spell, Evade? ').lower()
+                player_act = input('Attack, Cast Spell, Evade? ').lower().strip()
                 baddy_act = baddy_action() #randomizes baddy action
             elif player.stunned == True:
                 print(f'{player.name} is stunned this round\n')
@@ -41,16 +47,19 @@ def combat():
                 print(f'The {baddy.name} is stunned this round\n')
                 baddy_act = 'stunned'
                 baddy.stunned = False
-                player_act = input('Attack, Cast Spell, Evade? ').lower()
+                player_act = input('Attack, Cast Spell, Evade? ').lower().strip()
             
-            if player_act not in ['attack', 'cast spell', 'evade', 'stunned']:
+            if player_act not in ['attack', 'cast spell', 'evade', 'stunned', 'quit']:
                 print('''Please enter 'Attack', 'Cast Spell', 'Evade', or 'Quit'.''')
                 continue
             else:
                 round_counter += 1
                 points += 2
             
-            if player_act == 'attack' and baddy_act == 'attack':
+            if player_act == 'quit':
+                exit()
+            
+            elif player_act == 'attack' and baddy_act == 'attack':
                 print(player_act)
                 print(baddy_act + "\n")
                 player_hit = attack_roll(player.atk_mod, baddy.armor)
@@ -136,7 +145,7 @@ def combat():
                 if player_hit == True: #Checks if player hit successfully and deals damage if true
                     points += 2
                     baddy.stunned = True
-                    print(f'{player.name} cast {player.spells[0]} and stunned the{baddy.name}')
+                    print(f'{player.name} cast {player.spells[0]} and stunned the {baddy.name}')
                 else:
                     print(f'{player.name} cast {player.spells[0]} but the {baddy.name} resisted!')
                     baddy_hit = attack_roll(baddy.atk_mod, player.armor)
@@ -268,9 +277,8 @@ def combat():
 
                 elif player_act == 'evade':
                     print(f'For some reason {player.name} tried to evade the {baddy.name} even though it was stunned...\n That\'s a bit of a head scratcher...')
-
-            elif player_act == 'quit' or 'Quit':
-                exit()
+        time.sleep(2)
+            
 
         if player.hp > 0 and baddy.name != 'Bugbear':
             points += 5
@@ -303,10 +311,10 @@ def combat():
                     print('''Let's try that again...''')
         elif player.hp > 0 and baddy.name == 'Bugbear':
             points += points
-            print(f'Congratulations {player.name}! You beat all the dastardly bad guys this arena had to offer!\n\nYOU WON!\n\n')
+            print(f'Congratulations {player.name}! You beat all the dastardly bad guys this arena had to offer!\n\nYOU WON!\n\nScore: {score}')
             break
         else:
-            print(f'You died but congrats on getting this far.\nScore: {points}')
+            print(f'You died but congrats on getting this far.\n\nScore: {points}')
             break
     return points
 
@@ -317,19 +325,19 @@ high_scores = Score_Card.load_high_scores()
 Score_Card.print_scores()       
 
 name = input('Greetings friend! What is your name? ')
-
+time.sleep(1)
 print(f'''\nIt\'s good to have you here {name}.
 I hope you put on your fighting pants today...\n''')
 
 while True:
-    knows_classes = input(f'''Do you know what fighting class you want to pick?(yes/no):''').lower()
+    knows_classes = input(f'''Do you know what fighting class you want to pick?(yes/no):''').lower().strip()
     if knows_classes in ['yes', 'no']:
         break
     else:
         print('Well... Do you know or not?')
-
+time.sleep(1)
 if knows_classes.lower() == 'yes':
-        chosen_class = input('\nGreat! Good and ready for the grinder I see. The spectators in the arena will love that! \nSo which one: ').lower()
+        chosen_class = input('\nGreat! Good and ready for the grinder I see. The spectators in the arena will love that! \nSo which one: ').lower().strip()
 elif knows_classes.lower() == 'no':
         chosen_class = input(f'''\nOk then, let's see... 
 The three fighting styles we allow are:
@@ -359,10 +367,10 @@ The three fighting styles we allow are:
         + {barbarian.dex_mod} Dexterity
         Uses {barbarian.weapons[0]} to do {barbarian.weapons[3]} + {barbarian.weapons[2]}
         Uses {barbarian.spells[0]} to stun
-        \nWhat's your style: ''').lower()
+        \nWhat's your style: ''').lower().strip()
 else:
         print('Well... Do you know or not?')
-
+time.sleep(1)
 while True:
     if chosen_class == "monk":
         player = Monk(name, chosen_class.capitalize())
@@ -375,16 +383,22 @@ while True:
         break
     else:
         chosen_class = input('So... What style? ').lower()
-
+time.sleep(1)
 print(f'\nOk, {player.name} it\'s time to send you into the arena. \n{player}... That sounds pretty good I reckon.\nI\'m sure you\'ll do fine')
-
+time.sleep(6)
 print(f'''\n{player.name} is a {player.chosen_class}
 Their stats are:
     {player.atk_mod} Attack Mod
     {player.spell_mod} Spell Mod
     {player.dex_mod} Dexterity Mod
     \n''')
-
+time.sleep(5)
+counter = 5
+print('\nCombat in:')
+for iter in range(5):
+    print(counter)    
+    counter -= 1
+    time.sleep(1)
 score = combat()
 
 Score_Card.update_high_scores([player.name,score])
