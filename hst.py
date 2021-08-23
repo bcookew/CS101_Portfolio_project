@@ -1,9 +1,10 @@
 import shelve
 
+
 class Score_Card:
     high_scores = []
 
-    def load_high_scores():
+    def load_high_scores(): #imports high scores if stored otherwise populates list
         try:
             hsd = shelve.open('high_scores')
             Score_Card.high_scores = hsd['high_scores']
@@ -14,14 +15,14 @@ class Score_Card:
             
 
 
-    def print_scores():
+    def print_scores(): #print's and ordered score list
         print('\nHigh Scores!')
         for position in Score_Card.high_scores:
             print(position)
         print('\n')
 
 
-    def update_high_scores(new_score):
+    def update_high_scores(new_score): # recieves a new score and checks it against the top 5 inserting if appropriate then stores the high scores
         for position in Score_Card.high_scores:
             if new_score[1] > position[1]:
                 Score_Card.high_scores.insert(Score_Card.high_scores.index(position), new_score)

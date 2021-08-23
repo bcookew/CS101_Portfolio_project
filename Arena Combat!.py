@@ -1,5 +1,4 @@
 from hst import Score_Card
-from Actions import attack_roll, evade, damage_roll, cast_roll
 from dice import *
 from Player_classes import Monk, Paladin, Barbarian
 from Bad_Guy_Classes import Goblin, Lizardfolk, Bugbear
@@ -16,10 +15,10 @@ chosen_class = ''
 #print('\n')
 
 
-
+# contains the combat logic and cycle of enemies
 def combat():
     round_counter = 1
-    points = 0
+    points = 0 #for scoring
     player_starting_hp = player.hp
     for big_bad in big_bads:
         baddy = big_bad()
@@ -29,12 +28,15 @@ def combat():
         baddy_starting_hp = baddy.hp
         time.sleep(3)
         while baddy.hp > 0:
-            if round_counter > 1:
-                time.sleep(2)
+
+            if round_counter > 1:   # adds a slight delay so it is easier to keep up with the outcome of each round
+                time.sleep(3) 
             
             print(f'\n##########--Round {str(round_counter)}--##########')
             print(f'{player.name}: {player.hp}hp        {baddy.name}: {baddy.hp}\n')
-            
+            print(f'{player.name}\'s Score: {str(points)}')
+
+            #checks stun state, gets player action, and generates enemy action for round
             if player.stunned == False and baddy.stunned == False:
                 player_act = input('Attack, Cast Spell, Evade? ').lower().strip()
                 baddy_act = baddy_action() #randomizes baddy action
@@ -49,16 +51,17 @@ def combat():
                 baddy.stunned = False
                 player_act = input('Attack, Cast Spell, Evade? ').lower().strip()
             
-            if player_act not in ['attack', 'cast spell', 'evade', 'stunned', 'quit']:
+            if player_act not in ['attack', 'cast spell', 'evade', 'stunned', 'quit']: #checks for accepted inputs
                 print('''Please enter 'Attack', 'Cast Spell', 'Evade', or 'Quit'.''')
                 continue
             else:
                 round_counter += 1
                 points += 2
             
-            if player_act == 'quit':
+            if player_act == 'quit': #allows end of program during combat
                 exit()
             
+            #this and all subsequent elif's are the various potential outcomes of the player and enemy action options
             elif player_act == 'attack' and baddy_act == 'attack':
                 print(player_act)
                 print(baddy_act + "\n")
@@ -241,7 +244,7 @@ def combat():
                             print(f'{player.name} died. They were killed by a {baddy.name} with only {baddy.hp}hp left.')
                             break
                     else:
-                        print(f'The {baddy.name} swang and missed!\n')
+                        print(f'The {baddy.name} swang their {baddy.weapons[0]} and missed!\n')
                 
                 elif baddy_act == 'cast spell':
                     baddy_hit = cast_roll(baddy.spell_mod, player.armor-5)
@@ -279,8 +282,8 @@ def combat():
                     print(f'For some reason {player.name} tried to evade the {baddy.name} even though it was stunned...\n That\'s a bit of a head scratcher...')
         time.sleep(2)
             
-
-        if player.hp > 0 and baddy.name != 'Bugbear':
+        #logic to determine whether to go to the next enemy, the game has been won, or the player has died.
+        if player.hp > 0 and baddy.name != 'Bugbear': 
             points += 5
 
             print(f'\nCongratulations! You made it past that {baddy.name}. Now you get a special bonus...\nYou can have a health pack to increase your hp by 10 or you can have a stat boost to increase one of your stats by 3')
@@ -320,10 +323,11 @@ def combat():
 
 
 
-        
+#prints existing high score list        
 high_scores = Score_Card.load_high_scores()
 Score_Card.print_scores()       
 
+#Gets player name
 name = input('Greetings friend! What is your name? ')
 time.sleep(1)
 print(f'''\nIt\'s good to have you here {name}.
@@ -336,6 +340,8 @@ while True:
     else:
         print('Well... Do you know or not?')
 time.sleep(1)
+
+#checks user knowledge of playable classes
 if knows_classes.lower() == 'yes':
         chosen_class = input('\nGreat! Good and ready for the grinder I see. The spectators in the arena will love that! \nSo which one: ').lower().strip()
 elif knows_classes.lower() == 'no':
@@ -371,6 +377,7 @@ The three fighting styles we allow are:
 else:
         print('Well... Do you know or not?')
 time.sleep(1)
+#checks user class choice and initiates chosen sublcass of player class passing player name to class variable
 while True:
     if chosen_class == "monk":
         player = Monk(name, chosen_class.capitalize())
@@ -384,6 +391,8 @@ while True:
     else:
         chosen_class = input('So... What style? ').lower()
 time.sleep(1)
+
+#following code is all lead in to combat
 print(f'\nOk, {player.name} it\'s time to send you into the arena. \n{player}... That sounds pretty good I reckon.\nI\'m sure you\'ll do fine')
 time.sleep(6)
 print(f'''\n{player.name} is a {player.chosen_class}
@@ -399,6 +408,7 @@ for iter in range(5):
     print(counter)    
     counter -= 1
     time.sleep(1)
-score = combat()
 
-Score_Card.update_high_scores([player.name,score])
+#calls the combat function most  of the game resides in which returns a final score that is then checked against the high scores
+score = combat()
+Score_Card.update_high_scores([f'{player.name} the {player.chosen_class}', score])
