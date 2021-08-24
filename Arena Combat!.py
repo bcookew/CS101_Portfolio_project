@@ -412,3 +412,4 @@ for iter in range(5):
 #calls the combat function most  of the game resides in which returns a final score that is then checked against the high scores
 score = combat()
 Score_Card.update_high_scores([f'{player.name} the {player.chosen_class}', score])
+input('Press Enter to Quit')
