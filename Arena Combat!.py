@@ -26,11 +26,11 @@ def combat():
         print(f"\n{player.name} starting with {str(player.hp)} hp")
         print(f"{baddy.name} is starting with {str(baddy.hp)}hp\n")
         baddy_starting_hp = baddy.hp
-        time.sleep(3)
+        time.sleep(1.5)
         while baddy.hp > 0:
 
             if round_counter > 1:   # adds a slight delay so it is easier to keep up with the outcome of each round
-                time.sleep(3) 
+                time.sleep(2.5) 
             
             print(f'\n##########--Round {str(round_counter)}--##########')
             print(f'{player.name}: {player.hp}hp        {baddy.name}: {baddy.hp}\n')
@@ -73,7 +73,8 @@ def combat():
                     baddy.hp -= damage
                     print(f'{player.name} did {damage} points of damage to the {baddy.name} with their {player.weapons[0]}')
                     if baddy.hp <= 0:
-                        print(f'{player.name} killed the {baddy.name}!')    
+                        print(f'{player.name} killed the {baddy.name}!')
+                        break    
                     else:
                         if baddy_hit == True:
                             damage =  damage_roll(baddy.weapons)
@@ -107,7 +108,8 @@ def combat():
                     baddy.hp -= damage
                     print(f'{player.name} did {damage} points of damage to the {baddy.name} with their {player.weapons[0]}')
                     if baddy.hp <= 0:
-                        print(f'{player.name} killed the {baddy.name}!')    
+                        print(f'{player.name} killed the {baddy.name}!')
+                        break    
                     else:
                         if baddy_hit == True:
                             player.stunned = True
@@ -138,6 +140,7 @@ def combat():
                         print(f'{baddy.name} tried to evade and failed!')
                         if baddy.hp <= 0:
                             print(f'{player.name} killed the {baddy.name}!')
+                            break
                     else:
                         print(f'{baddy.name} stumbled trying to evade but {player.name} was startled by a shiny coin and missed anyway!')       
 
@@ -314,7 +317,7 @@ def combat():
                     print('''Let's try that again...''')
         elif player.hp > 0 and baddy.name == 'Bugbear':
             points += points
-            print(f'Congratulations {player.name}! You beat all the dastardly bad guys this arena had to offer!\n\nYOU WON!\n\nScore: {score}')
+            print(f'Congratulations {player.name}! You beat all the dastardly bad guys this arena had to offer!\n\nYOU WON!\n\nScore: {points}')
             break
         else:
             print(f'You died but congrats on getting this far.\n\nScore: {points}')
@@ -329,7 +332,7 @@ Score_Card.print_scores()
 
 #Gets player name
 name = input('Greetings friend! What is your name? ')
-time.sleep(1)
+time.sleep(0.5)
 print(f'''\nIt\'s good to have you here {name}.
 I hope you put on your fighting pants today...\n''')
 
@@ -339,7 +342,7 @@ while True:
         break
     else:
         print('Well... Do you know or not?')
-time.sleep(1)
+time.sleep(0.5)
 
 #checks user knowledge of playable classes
 if knows_classes.lower() == 'yes':
@@ -376,7 +379,7 @@ The three fighting styles we allow are:
         \nWhat's your style: ''').lower().strip()
 else:
         print('Well... Do you know or not?')
-time.sleep(1)
+time.sleep(0.5)
 #checks user class choice and initiates chosen sublcass of player class passing player name to class variable
 while True:
     if chosen_class == "monk":
@@ -390,21 +393,23 @@ while True:
         break
     else:
         chosen_class = input('So... What style? ').lower()
-time.sleep(1)
+time.sleep(0.5)
 
 #following code is all lead in to combat
-print(f'\nOk, {player.name} it\'s time to send you into the arena. \n{player}... That sounds pretty good I reckon.\nI\'m sure you\'ll do fine')
-time.sleep(6)
+print(f'\nOk, {player.name} it\'s time to send you into the arena.') 
+time.sleep(1)
+print(f'\n{player}... That sounds pretty good I reckon.\nI\'m sure you\'ll do fine')
+time.sleep(2)
 print(f'''\n{player.name} is a {player.chosen_class}
 Their stats are:
     {player.atk_mod} Attack Mod
     {player.spell_mod} Spell Mod
     {player.dex_mod} Dexterity Mod
     \n''')
-time.sleep(5)
-counter = 5
-print('\nCombat in:')
-for iter in range(5):
+time.sleep(3)
+counter = 3
+print('Combat in:')
+for iter in range(3):
     print(counter)    
     counter -= 1
     time.sleep(1)
